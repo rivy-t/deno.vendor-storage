@@ -1,0 +1,54 @@
+# Vendoring
+
+## Refs
+
+## `deno`
+
+- vendor dependencies
+
+```shell
+rm -r vendor/deno@1.44.4-vendor
+deno-v1.44.4 vendor --output vendor/deno@1.44.4-vendor --no-config ./$deps.ts
+cp -r vendor/.patch/* vendor/deno@1.44.4-vendor
+deno run -A tools/rewrite-vendor.deno.ts
+```
+
+- generate/check vendor dependencies
+- by using JSDelivr CDN, the imports should always be available and immutable _no matter if the original GitHub import repo/commit/file is removed_
+
+```shell
+deno run --lock=.deps-lock/deno.lock ./tests/$deps.(vendor-cdn).ts
+```
+
+````text
+commit 7444620ed1feb3d6e878fab6fc978f797d1ee361
+Author: Roy Ivy III <rivy.dev@gmail.com>
+Date:   Tue Jan 21 21:29:56 2025 -0600
+
+    deps/vendor ~ update vendor deps
+
+    ## process
+
+    ```shell
+    #rm -r vendor/[!.@]*
+    #touch vendor/import_map.json
+    rm -r vendor/deno@1.44.4-vendor
+    xx deno-v1.44.4 vendor --output vendor/deno@1.44.4-vendor --no-config bench\*.ts eg\*.ts src\*.ts tools\*.ts tests\*.ts
+    cp -r vendor/.patch/* vendor/deno@1.44.4-vendor
+    git add -f vendor
+    git commit ...
+    ```
+
+    - may then use `--import-map=vendor/deno@1.44.4-vendor/import_map.json --no-remote` for `deno run/test` (requires Deno>
+
+commit dd9d04327f7ae1ce5b66dfb76e289e337fc44451
+Author: Roy Ivy III <rivy.dev@gmail.com>
+Date:   Tue Jan 21 10:22:25 2025 -0600
+
+    maint/dev ~ wipe `deno vendor ...` from 'vendor'
+
+    - `deno vendor ...`, by default, stores all vendored items directly in *vendor* and then
+      complains about direct imports from that directory
+    - future vendoring will use `--output ./vendor/...` to store downloaded modules into a
+      distinct *vendor* subdirectory for easier manipulation and fewer `deno` complaints
+````
