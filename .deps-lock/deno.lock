@@ -1,0 +1,9 @@
+{
+  "version": "4",
+  "remote": {
+    "https://cdn.jsdelivr.net/gh/rivy-t/deno.vendor-storage@2de719db3a/vendor/deno@1.44.4-vendor/esm.sh/7zip-bin@5.1.1/denonext/7zip-bin.mjs": "186204bd65e1b1e0441d5344219f90fc998930cdd1914bcf9fc8f83afa7a647b",
+    "https://cdn.jsdelivr.net/gh/rivy-t/deno.vendor-storage@2de719db3a/vendor/deno@1.44.4-vendor/esm.sh/7zip-min@2.0.0.js": "8df90208bcb7a49e150f50de3d6efede7f14d0f2da8397fe5c505ac3c2826db7",
+    "https://cdn.jsdelivr.net/gh/rivy-t/deno.vendor-storage@2de719db3a/vendor/deno@1.44.4-vendor/esm.sh/7zip-min@2.0.0.proxied.js": "b740cc4c18a89baf64607d37ee008b4a43d04ffde5f8d60e78b5636c58da2cc8",
+    "https://cdn.jsdelivr.net/gh/rivy-t/deno.vendor-storage@2de719db3a/vendor/deno@1.44.4-vendor/esm.sh/7zip-min@2.0.0/denonext/7zip-min.mjs": "70e6e5ec170158a6b00ca99b500d3b7a074f4dd9cc9d9229fc8d74c946e0381e"
+  }
+}
