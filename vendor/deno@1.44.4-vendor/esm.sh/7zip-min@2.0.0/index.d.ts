@@ -10,19 +10,14 @@ export interface ListItem {
     method: string; // compression method
     block: string; // block
 }
-
 export type CallbackFn = (err: Error | null, output?: string) => void;
 export type ListCallbackFn = (err: Error | null, listItems?: ListItem[]) => void;
-
 export function unpack(pathToPack: string, destPath?: string): Promise<string>;
 export function unpack(pathToPack: string, cb: CallbackFn): void;
 export function unpack(pathToPack: string, destPath: string, cb: CallbackFn): void;
-
 export function pack(pathToSrc: string, pathToDest: string): Promise<string>;
 export function pack(pathToSrc: string, pathToDest: string, cb: CallbackFn): void;
-
 export function list(pathToSrc: string): Promise<ListItem[]>;
 export function list(pathToSrc: string, cb: ListCallbackFn): void;
-
 export function cmd(paramsArr: string[]): Promise<string>;
 export function cmd(paramsArr: string[], cb: CallbackFn): void;
