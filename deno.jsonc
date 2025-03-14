@@ -1,0 +1,14 @@
+{
+	"exclude": ["node_modules", "vendor"],
+	"bench": { "exclude": ["node_modules", "vendor"] },
+	"fmt": {
+		"useTabs": true,
+		"lineWidth": 100,
+		"indentWidth": 2,
+		"singleQuote": true,
+		"proseWrap": "never"
+	},
+	"lock": false
+	// "nodeModulesDir": "none" // not needed; default for Deno-2 with no *package.json* file
+	// , "importMap": "./vendor/import_map.json"
+}
