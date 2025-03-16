@@ -14,6 +14,10 @@ import {
 import { toText } from 'https://deno.land/std@0.224.0/streams/mod.ts';
 import ts from 'https://esm.sh/typescript@5.7.3';
 
+import * as $lib from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@89a9a3084a/src/lib/$shared.ts';
+// $lib.intoPlatformPath();
+import { traversal } from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@89a9a3084a/src/lib/$shared.ts';
+
 const scriptDirURL = new URL('./', import.meta.url);
 
 // const vendorDirURL = new URL('../vendor/deno@1.44.4-vendor/', scriptDirURL);
@@ -69,7 +73,7 @@ function createTransformer(
 			if (fileURL.href.startsWith(scopeURL.href)) {
 				scopeMatch = true;
 			}
-			console.warn({ scope: scopeURL.href, scopeMatch });
+			// console.warn({ scope: scopeURL.href, scopeMatch });
 			if (scopeMatch) {
 				// entries sorted by longest common prefix
 				for (const [remote, local] of Object.entries(scopeImports).sort(
@@ -112,16 +116,22 @@ function createTransformer(
 				file: f,
 				importMap: i,
 				importMap_href: importMapURL.href,
+				traversal_ifromf: traversal(importMapURL, fileURL),
+				traversal_sfrom: new URL(
+					finalSpecifier,
+					new URL('./', $lib.intoURL(traversal(importMapURL, fileURL))),
+				),
+				i_join_fs: new URL(finalSpecifier, importMapURL),
 			});
 			finalSpecifier = prefix
-				? `./${join(prefix, finalSpecifier)}`
+				? `${join(prefix.startsWith('.') ? '' : '/', prefix, finalSpecifier)}`
 				: new URL(finalSpecifier, importMapURL).href;
 			// if (!finalSpecifier.startsWith('.')) {
 			// 	// ensure that the finalSpecifier is relative
 			// 	finalSpecifier = `./${finalSpecifier}`;
 			// }
 		}
-		finalSpecifier = finalSpecifier.replace(/\\/g, '/'); // as POSIX-style path
+		finalSpecifier = $lib.pathToPOSIX(finalSpecifier); // as POSIX-style path
 		console.warn(
 			`resolveSpecifier(${specifier}) => ${
 				finalSpecifier === specifier ? 'NO-CHANGE ' : ''
