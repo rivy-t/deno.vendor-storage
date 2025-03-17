@@ -434,41 +434,20 @@ async function createTransformer(
 			}
 		}
 
-		// log.trace(`...finalSpecifier=${finalSpecifier}`);
-		// Now, if the final specifier is a replacement and still relative, resolve it relative to the import map base.
 		if (
 			finalSpecifier !== specifier &&
 			(finalSpecifier.startsWith('./') || finalSpecifier.startsWith('../'))
 		) {
-			// const prefix = dirname(relative(resolve(fileURL), dirname(resolve(importMapURL))));
-			const f = fileURL.protocol === 'file:' ? fromFileUrl(fileURL) : fileURL.pathname;
-			const i =
-				importMapURL.protocol === 'file:' ? fromFileUrl(importMapURL) : importMapURL.pathname;
-			const prefix =
-				fileURL.protocol === 'file:' && fileURL.origin === importMapURL.origin
-					? dirname(relative(dirname(f), i))
-					: undefined;
-			log.trace({
-				finalSpecifier,
-				prefix,
-				file: f,
-				importMap: i,
-				importMap_href: importMapURL.href,
-				traversal_ifromf: traversal(importMapURL, fileURL),
-				traversal_sfrom: new URL(
-					finalSpecifier,
-					new URL('./', $lib.intoURL(traversal(importMapURL, fileURL))),
-				),
-				i_join_fs: new URL(finalSpecifier, importMapURL),
-			});
-			finalSpecifier = prefix
-				? `${join(prefix.startsWith('.') ? '' : '/', prefix, finalSpecifier)}`
-				: new URL(finalSpecifier, importMapURL).href;
-			// if (!finalSpecifier.startsWith('.')) {
-			// 	// ensure that the finalSpecifier is relative
-			// 	finalSpecifier = `./${finalSpecifier}`;
-			// }
+			const fullImportFolderPath = dirname(pathFromURL(importMapURL) ?? '');
+			const fullFileFolderPath = dirname(pathFromURL(fileURL) ?? '');
+			const prefix = relative(fullFileFolderPath, fullImportFolderPath);
+			finalSpecifier = $lib.pathToPOSIX(join(prefix, finalSpecifier));
+			if (!(finalSpecifier.startsWith('./') || finalSpecifier.startsWith('../'))) {
+				// ensure that the finalSpecifier starts with a relative directory prefix
+				finalSpecifier = `./${finalSpecifier}`;
+			}
 		}
+
 		finalSpecifier = $lib.pathToPOSIX(finalSpecifier); // as POSIX-style path
 		log.info(
 			`resolveSpecifier(file='${pathFromURL(fileURL)}'; '${specifier}') => ${
