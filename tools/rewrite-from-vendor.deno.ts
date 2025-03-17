@@ -597,7 +597,7 @@ async function processFile(file: string | URL) {
 	const fileURL = typeof file === 'string' ? intoURL(file) : file;
 	const filePath = pathFromURL(fileURL);
 	if (fileURL == null || filePath == null) {
-		await log.error(`Invalid file: ${file}`);
+		await log.error(`Invalid file path: ${file}`);
 		return;
 	}
 	await log.trace('processFile():', { filePath });
@@ -609,8 +609,13 @@ async function processFile(file: string | URL) {
 	}
 
 	// const content = await Deno.readTextFile(file);
-	const content = await fetchText(fileURL);
+	const content = await tryFn(async () => await fetchText(fileURL));
 	await log.trace('processFile():', { fileContent: content });
+	if (content == null) {
+		await log.error(`Failed to read file (\`${filePath}\`)`);
+		appExitValue = 1;
+		return;
+	}
 
 	// Compute the parent's remote URL by removing the vendor folder prefix.
 	// const relativePath = filePath.replace(new RegExp(`^${vendorDirURL.href}`), '');
@@ -647,7 +652,7 @@ async function processDir(dir: string) {
 		const fullPath = join(dir, entry.name);
 		if (entry.isDirectory) {
 			await processDir(fullPath);
-		} else if (entry.isFile) {
+		} else {
 			await processFile(fullPath);
 		}
 	}
@@ -657,15 +662,14 @@ async function processArgs(args: string[]) {
 	await log.trace('processArgs():', { args });
 	for (const arg of args) {
 		const path = resolve(arg);
-		const stat = await Deno.lstat(path);
+		const stat = tryFn(() => Deno.lstatSync(path));
 		await log.trace('processArgs():', { path, stat });
-		if (stat.isDirectory) {
+		if (stat == null) {
+			await log.error(`Unable to read status of file (\`${arg}\`)`);
+			appExitValue = 1;
+		} else if (stat.isDirectory) {
 			await processDir(path);
-		} else if (stat.isFile) {
-			await processFile(path);
-		} else {
-			await log.error(`Unsupported file type (non-directory/file): ${arg}`);
-		}
+		} else await processFile(path);
 	}
 }
 
