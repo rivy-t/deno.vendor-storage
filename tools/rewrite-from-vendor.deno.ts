@@ -137,6 +137,9 @@ const appCopyright = '* Copyright (c) 2025+ * Roy Ivy III (MIT license)';
 const appVersion = '0.0.0';
 const appRunAs = $me.runAs;
 
+const appLogLevelDefault = 'notice';
+let appLogLevel: number | string = appLogLevelDefault;
+
 let appExitValue = 0;
 let appUsageError = false;
 
@@ -186,7 +189,7 @@ Usage:\n  ${appRunAs} [OPTION..] FILE..`)
 	.alias('version', 'V')
 	// * (boilerplate) logging options
 	.option('log-level', {
-		alias: ['\b\b\b\b LOG_LEVEL'], // fixme/hack: display option argument description (see <https://github.com/yargs/yargs/issues/833#issuecomment-982657645>)
+		alias: ['loglevel', '\b\b\b\b LOG_LEVEL'], // fixme/hack: display option argument description (see <https://github.com/yargs/yargs/issues/833#issuecomment-982657645>)
 		describe: 'Set logging level to LOG_LEVEL (overrides any prior setting)',
 		type: 'string',
 		choices: ['error', 'warning', 'warn', 'note', 'info', 'debug', 'trace'], // required for help display of choices
@@ -238,23 +241,28 @@ Usage:\n  ${appRunAs} [OPTION..] FILE..`)
 
 const bakedArgs = $me.args();
 
-// // 'halt-at-non-option: true' doesn't work when using 'unknown-options-as-args: true' => break up args into pre/post non-option sections
-// const endOfOptionsSignal = '--';
-// const idxFirstNonOption = ((arr) => {
-// 	const idx = arr.findIndex((e) => e === endOfOptionsSignal || !e.startsWith('-'));
-// 	return idx < 0 ? arr.length : idx;
-// })(bakedArgs);
-// const usesEndOfOptions = bakedArgs[idxFirstNonOption] === endOfOptionsSignal;
-
-// log.trace({ idxFirstNonOption, usesEndOfOptions });
-
-// const optionArgs = bakedArgs.slice(0, idxFirstNonOption);
-// const nonOptionArgs = bakedArgs.slice(idxFirstNonOption + (usesEndOfOptions ? 1 : 0));
-
-const optionArgs = bakedArgs;
+let optionArgs = bakedArgs;
 const nonOptionArgs: typeof bakedArgs = [];
 
-log.trace({ optionArgs, nonOptionArgs });
+// normalize all Logging options to `--log-level=...`
+// * allows easier selection and also for the trailing log-level CLI option to override all prior settings
+const endOfOptionsSignal = '--';
+let endOfOptionsFound = false;
+optionArgs = optionArgs.map((v) => {
+	if (endOfOptionsFound) return v;
+	if (v === endOfOptionsSignal) {
+		endOfOptionsFound = true;
+		return v;
+	}
+	if (v === '--silent') return '--log-level=error';
+	if (v === '--quiet') return '--log-level=warn';
+	if (v === '--verbose') return '--log-level=info';
+	if (v === '--debug') return '--log-level=debug';
+	if (v === '--trace') return '--log-level=trace';
+	return v;
+});
+
+await log.trace({ optionArgs, nonOptionArgs });
 
 const yargs = (() => {
 	try {
@@ -273,77 +281,17 @@ const args = yargs?._.map((arg) => String(arg)) || [];
 
 log.trace({ bakedArgs, yargs, args });
 
-// const possibleLogLevels = ((defaultLevel = 'notice') => {
-// 	const levels = [
-// 		logLevelFromEnv,
-// 		argv?.silent ? 'error' : undefined,
-// 		argv?.quiet ? 'warn' : undefined,
-// 		argv?.verbose ? 'info' : undefined,
-// 		argv?.debug ? 'debug' : undefined,
-// 		argv?.trace ? 'trace' : undefined,
-// 	].filter(Boolean);
-// 	const logLevelFromArgv = (
-// 		Array.isArray(argv?.logLevel)
-// 			? (argv?.logLevel as string[])
-// 			: [argv?.logLevel as string | undefined]
-// 	).pop();
-// 	log.trace({ logLevelFromEnv, levels, logLevelFromArgv });
-// 	return [log.logLevelDetail(logLevelFromArgv)?.levelName]
-// 		.concat(
-// 			(levels.length > 0 ? levels : [defaultLevel])
-// 				.map((s) => log.logLevelDetail(s)?.levelNumber)
-// 				.filter(Boolean)
-// 				.sort()
-// 				.reverse()
-// 				.map((n) => log.logLevelDetail(n)?.levelName),
-// 		)
-// 		.filter(Boolean);
-// })();
-const possibleLogLevels = ((defaultLevel = 'notice') => {
-	const levels = [
-		logLevelFromEnv,
-		(yargs?.quiet as boolean) ? 'warn' : undefined,
-		(yargs?.silent as boolean) ? 'error' : undefined,
-		(yargs?.verbose as boolean) ? 'info' : undefined,
-		(yargs?.debug as boolean) ? 'debug' : undefined,
-		(yargs?.trace as boolean) ? 'trace' : undefined,
-	].filter(Boolean);
-	return (levels.length > 0 ? levels : [defaultLevel])
-		.map((s) => log.logLevelDetail(s)?.levelNumber)
-		.filter(Boolean)
-		.sort()
-		.reverse()
-		.map((n) => log.logLevelDetail(n)?.levelName);
+appLogLevel = ((defaultLogLevel = appLogLevelDefault) => {
+	const anyLogLevelFromOption = yargs?.logLevel as string | string[] | undefined;
+	const logLevelFromOption = Array.isArray(anyLogLevelFromOption)
+		? anyLogLevelFromOption.at(-1)
+		: anyLogLevelFromOption;
+	const levels = [defaultLogLevel, logLevelFromEnv, logLevelFromOption].filter(Boolean);
+	return levels.at(-1) ?? Infinity;
 })();
-const logLevel = possibleLogLevels.length > 0 ? possibleLogLevels[0] : Infinity;
 
-log.trace({ possibleLogLevels });
-
-log.mergeMetadata({ Filter: { level: logLevel } });
-log.debug(`log level set to '${logLevel}'`);
-
-// const m = new $logger.Metadata(log.getMetadata());
-// const m_all_props = m.getAllProps(['chain_id', 'Filter']);
-// const m_g = m.getGlobalData();
-// const m_filter = m.getScopedData('Filter');
-// const m_x = m.getProp('level', 'Filter');
-
-// log.debug({ logLevels: log.logLevels() });
-// log.debug({ logMetadata: log.getMetadata(), m_all_props, m_g, m_filter, m_x });
-
-// const axeCurrentLogLevel = $logger.currentLogLevel(log);
-// const currentLogLevel = log.logLevelDetail(m.getProp('level', 'Filter') ?? logLevel);
-// const noteLogLevelDetail = log.logLevelDetail('note');
-
-// const shouldDisplayNote = $logger.shouldDisplayLevel(log, 'note');
-// const shouldDisplayDebug = $logger.shouldDisplayLevel(log, 'debug');
-// log.debug({
-// 	axeCurrentLogLevel,
-// 	currentLogLevel,
-// 	noteLogLevelDetail,
-// 	shouldDisplayNote,
-// 	shouldDisplayDebug,
-// });
+log.mergeMetadata({ Filter: { level: appLogLevel } });
+log.debug(`log level set to '${appLogLevel}'`);
 
 await log.resume();
 
