@@ -10,37 +10,37 @@ import {
 	// $fs,
 	// $lodash,
 	// $path,
-} from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@89a9a3084a/src/lib/$deps.ts';
+} from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/$deps.ts';
 
 import {
 	// decoder,
 	// encoder,
 	intoURL,
 	pathFromURL,
-} from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@89a9a3084a/src/lib/$shared.ts';
+} from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/$shared.ts';
 
 import {
 	// abortIfMissingPermits,
 	abortIfMissingPermitsSync,
 	env,
-} from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@89a9a3084a/src/lib/$shared.ts';
+} from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/$shared.ts';
 
-import * as $me from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@89a9a3084a/src/lib/xProcess.ts';
+import * as $me from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/xProcess.ts';
 
-import { $logger, logger } from '../../../dxx/repo.GH/src/lib/$shared.ts';
+import {
+	$logger,
+	logger,
+} from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/$shared.ts';
 
-// import * as $logger from '../../../dxx/repo.GH/src/lib/axe/$mod.ts';
-// const logger = $logger.logger;
-
-// import { eol as $eol } from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@89a9a3084a/src/lib/eol.ts';
-import { restyleYargsHelp } from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@89a9a3084a/src/lib/restyleYargsHelp.ts';
+// import { eol as $eol } from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/eol.ts';
+import { restyleYargsHelp } from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/restyleYargsHelp.ts';
 
 //===
 
 import {
 	$yargs,
 	type YargsArguments,
-} from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@89a9a3084a/src/lib/$deps.cli.ts';
+} from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/$deps.cli.ts';
 
 //===
 
@@ -54,9 +54,9 @@ import {
 } from 'https://deno.land/std@0.224.0/path/mod.ts';
 import { toText } from 'https://deno.land/std@0.224.0/streams/mod.ts';
 
-import * as $lib from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@89a9a3084a/src/lib/$shared.ts';
+import * as $lib from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/$shared.ts';
 // $lib.intoPlatformPath();
-import { traversal } from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@89a9a3084a/src/lib/$shared.ts';
+import { traversal } from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/$shared.ts';
 
 //===
 
