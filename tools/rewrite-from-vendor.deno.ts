@@ -26,6 +26,7 @@ import {
 } from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/$shared.ts';
 
 import * as $me from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/xProcess.ts';
+import * as $consoleSize from 'https://cdn.jsdelivr.net/gh/rivy/deno.dxx@7a17530aab/src/lib/consoleSize.ts';
 
 import {
 	$logger,
@@ -274,10 +275,8 @@ const yargs = (() => {
 		return;
 	}
 })();
-if (yargs && Array.isArray(yargs._)) {
-	yargs._.push(...nonOptionArgs);
-}
-const args = yargs?._.map((arg) => String(arg)) || [];
+
+const args = yargs?._?.concat(...nonOptionArgs).map((arg) => String(arg)) || [];
 
 log.trace({ bakedArgs, yargs, args });
 
@@ -296,17 +295,25 @@ log.debug(`log level set to '${appLogLevel}'`);
 await log.resume();
 
 //===
+
 // ref: <https://stackoverflow.com/questions/50565408/should-bash-scripts-called-with-help-argument-return-0-or-not-zero-exit-code>
 if (yargs?.help) {
 	const yargsHelp = await app.getHelp();
-	const help = await restyleYargsHelp(yargsHelp);
+	const consoleSize = await $consoleSize.consoleSize();
+	const help = await restyleYargsHelp(yargsHelp, { consoleWidth: consoleSize?.columns ?? 80 });
 	console.log(help);
-	appExitValue = 1;
+	const onlyHelp =
+		yargs._.length === 0 &&
+		Object.keys(yargs).filter((s) => !['help', '_', '$0'].includes(s)).length === 0;
+	appExitValue = onlyHelp ? 0 : 1;
 	Deno.exit(appExitValue);
 }
 if (yargs?.version) {
 	console.log(appVersion);
-	appExitValue = 1;
+	const onlyVersion =
+		yargs._.length === 0 &&
+		Object.keys(yargs).filter((s) => !['version', '_', '$0'].includes(s)).length === 0;
+	appExitValue = onlyVersion ? 0 : 1;
 	Deno.exit(appExitValue);
 }
 
