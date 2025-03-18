@@ -153,6 +153,8 @@ const app = $yargs(/* argv */ undefined, /* cwd */ undefined)
 	// * usage, description, and epilog (ie, notes/copyright)
 	.usage(`$0 ${appVersion}\n
 Expand and rewrite module imports to load directly from 'vendored' packages.\n
+* Usual ESM export/import statements are all matched and rewritten.
+* However, only simple dynamic imports of the form \`const M = [await] import('...');\` are matched and rewritten.\n
 Usage:\n  ${appRunAs} [OPTION..] FILE..`)
 	.updateStrings({ 'Positionals:': 'Arguments:' }) // note: Yargs requires this `updateStrings()` to precede `.positional(...)` definitions for correct help display
 	.positional('OPTION', { describe: 'OPTION(s); see listed *Options*' })
@@ -494,6 +496,111 @@ async function createTransformer(
 							node.attributes,
 						);
 					}
+				}
+			}
+			// Process dynamic imports: `import('module-specifier')`
+			if (
+				ts.isCallExpression(node) &&
+				ts.isIdentifier(node.expression) &&
+				node.expression.text === 'import' &&
+				node.arguments.length > 0 &&
+				ts.isStringLiteral(node.arguments[0])
+			) {
+				const moduleText = node.arguments[0].text;
+				const newModuleText = resolveSpecifier(moduleText);
+				if (newModuleText !== moduleText) {
+					return ts.factory.updateCallExpression(node, node.expression, node.typeArguments, [
+						ts.factory.createStringLiteral(newModuleText),
+						...node.arguments.slice(1),
+					]);
+				}
+			}
+			// Process variable statements with import calls: `const M = [await] import('module-specifier')`
+			if (ts.isVariableStatement(node)) {
+				const declarations = node.declarationList.declarations;
+				let modified = false;
+				// Create new declarations array with updated import specifiers
+				const newDeclarations = declarations.map((decl) => {
+					// // Debug the structure
+					// if (decl.initializer && ts.isCallExpression(decl.initializer)) {
+					// 	console.warn('Call expression structure:', {
+					// 		kind: ts.SyntaxKind[decl.initializer.expression.kind],
+					// 		text: decl.initializer.expression.getText?.(),
+					// 		hasArguments: decl.initializer.arguments.length > 0,
+					// 		firstArgKind: decl.initializer.arguments[0]
+					// 			? ts.SyntaxKind[decl.initializer.arguments[0].kind]
+					// 			: null,
+					// 	});
+					// }
+					// Case 1: Direct import call: `const M = import('...')`
+					if (
+						decl.initializer &&
+						ts.isCallExpression(decl.initializer) &&
+						decl.initializer.expression.kind === ts.SyntaxKind.ImportKeyword &&
+						decl.initializer.arguments.length > 0 &&
+						ts.isStringLiteral(decl.initializer.arguments[0])
+					) {
+						const moduleText = decl.initializer.arguments[0].text;
+						const newModuleText = resolveSpecifier(moduleText);
+						if (newModuleText !== moduleText) {
+							modified = true;
+							return ts.factory.updateVariableDeclaration(
+								decl,
+								decl.name,
+								decl.exclamationToken,
+								decl.type,
+								ts.factory.updateCallExpression(
+									decl.initializer,
+									decl.initializer.expression,
+									decl.initializer.typeArguments,
+									[
+										ts.factory.createStringLiteral(newModuleText),
+										...decl.initializer.arguments.slice(1),
+									],
+								),
+							);
+						}
+					}
+					// Case 2: Awaited import call: `const M = await import('...')`
+					if (
+						decl.initializer &&
+						ts.isAwaitExpression(decl.initializer) &&
+						ts.isCallExpression(decl.initializer.expression) &&
+						decl.initializer.expression.expression.kind === ts.SyntaxKind.ImportKeyword &&
+						decl.initializer.expression.arguments.length > 0 &&
+						ts.isStringLiteral(decl.initializer.expression.arguments[0])
+					) {
+						const moduleText = decl.initializer.expression.arguments[0].text;
+						const newModuleText = resolveSpecifier(moduleText);
+						if (newModuleText !== moduleText) {
+							modified = true;
+							const updatedCallExpr = ts.factory.updateCallExpression(
+								decl.initializer.expression,
+								decl.initializer.expression.expression,
+								decl.initializer.expression.typeArguments,
+								[
+									ts.factory.createStringLiteral(newModuleText),
+									...decl.initializer.expression.arguments.slice(1),
+								],
+							);
+							return ts.factory.updateVariableDeclaration(
+								decl,
+								decl.name,
+								decl.exclamationToken,
+								decl.type,
+								ts.factory.updateAwaitExpression(decl.initializer, updatedCallExpr),
+							);
+						}
+					}
+					return decl;
+				});
+				// If any declaration was modified, return updated variable statement
+				if (modified) {
+					return ts.factory.updateVariableStatement(
+						node,
+						node.modifiers,
+						ts.factory.updateVariableDeclarationList(node.declarationList, newDeclarations),
+					);
 				}
 			}
 			return ts.visitEachChild(node, visit, context);
