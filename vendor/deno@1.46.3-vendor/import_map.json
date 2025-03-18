@@ -1,0 +1,31 @@
+{
+  "imports": {
+    "https://esm.sh/7zip-min@2.0.0": "./esm.sh/7zip-min@2.0.0.js",
+    "https://esm.sh/typescript@5.7.3": "./esm.sh/typescript@5.7.3.js",
+    "https://cdn.jsdelivr.net/npm/lodash-es@4.17.15/+esm": "./cdn.jsdelivr.net/npm/lodash-es@4.17.15/+esm.js",
+    "https://cdn.jsdelivr.net/npm/deepmerge@4.3.1/+esm": "./cdn.jsdelivr.net/npm/deepmerge@4.3.1/+esm.js",
+    "https://cdn.jsdelivr.net/npm/picomatch@2.2.1/+esm": "./cdn.jsdelivr.net/npm/picomatch@2.2.1/+esm.js",
+    "https://cdn.jsdelivr.net/npm/braces@3.0.2/+esm": "./cdn.jsdelivr.net/npm/braces@3.0.2/+esm.js",
+    "https://cdn.jsdelivr.net/": "./cdn.jsdelivr.net/",
+    "https://deno.land/": "./deno.land/",
+    "https://esm.sh/": "./esm.sh/"
+  },
+  "scopes": {
+    "./cdn.jsdelivr.net/": {
+      "/npm/fill-range@7.0.1/+esm": "./cdn.jsdelivr.net/npm/fill-range@7.0.1/+esm.js",
+      "/npm/to-regex-range@5.0.1/+esm": "./cdn.jsdelivr.net/npm/to-regex-range@5.0.1/+esm.js",
+      "/npm/is-number@7.0.0/+esm": "./cdn.jsdelivr.net/npm/is-number@7.0.0/+esm.js"
+    },
+    "./esm.sh/": {
+      "/7zip-bin@5.1.1/denonext/7zip-bin.mjs": "./esm.sh/7zip-bin@5.1.1/denonext/7zip-bin.mjs",
+      "/7zip-min@2.0.0/denonext/7zip-min.mjs": "./esm.sh/7zip-min@2.0.0/denonext/7zip-min.mjs",
+      "/buffer-from@1.1.2/denonext/buffer-from.mjs": "./esm.sh/buffer-from@1.1.2/denonext/buffer-from.mjs",
+      "/source-map@^0.6.0?target=denonext": "./esm.sh/source-map@0.6.1.js",
+      "/buffer-from@^1.0.0?target=denonext": "./esm.sh/buffer-from@1.1.2.js",
+      "/source-map-support@0.5.21/denonext/source-map-support.mjs": "./esm.sh/source-map-support@0.5.21/denonext/source-map-support.mjs",
+      "/source-map@0.6.1/denonext/source-map.mjs": "./esm.sh/source-map@0.6.1/denonext/source-map.mjs",
+      "/source-map-support?target=denonext": "./esm.sh/source-map-support@0.5.21.js",
+      "/typescript@5.7.3/denonext/typescript.mjs": "./esm.sh/typescript@5.7.3/denonext/typescript.mjs"
+    }
+  }
+}
