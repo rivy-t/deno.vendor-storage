@@ -406,7 +406,7 @@ async function createTransformer(
 
 		let finalSpecifier = specifier;
 
-		let scopeMatch = false;
+		let specifierMatched = false;
 		// Check scope mappings first: if the file's URL starts with a scope key,
 		// then check that scope's mapping for a matching prefix.
 		for (const [scope, scopeImports] of Object.entries(scopes)) {
@@ -415,27 +415,28 @@ async function createTransformer(
 			// const scopePath = resolve(join(dirname(resolve(importMapURL)), scope));
 			// const scopePrefixURL = new URL(scopePrefix, importMapURL);
 			// log.trace(`scopePrefix=${scopePrefixURL.href}`);
+			log.trace({ scope: scopeURL.href, specifierMatched });
 			if (fileURL.href.startsWith(scopeURL.href)) {
-				scopeMatch = true;
-			}
-			// log.trace({ scope: scopeURL.href, scopeMatch });
-			if (scopeMatch) {
 				// entries sorted by longest common prefix
 				for (const [remote, local] of Object.entries(scopeImports).sort(
 					([a], [b]) => b.length - a.length,
 				)) {
+					log.trace('resolveSpecifier()/scopes:', { remote, local });
 					if (finalSpecifier.startsWith(remote)) {
+						specifierMatched = true;
 						finalSpecifier = finalSpecifier.replace(remote, local);
 					}
 				}
 			}
 		}
-		if (!scopeMatch) {
+		if (!specifierMatched) {
 			// Fall back to the global imports mapping.
 			for (const [remote, local] of Object.entries(imports).sort(
 				([a], [b]) => b.length - a.length,
 			)) {
+				log.trace('resolveSpecifier()/imports:', { remote, local });
 				if (finalSpecifier.startsWith(remote)) {
+					specifierMatched = true;
 					finalSpecifier = finalSpecifier.replace(remote, local);
 				}
 			}
