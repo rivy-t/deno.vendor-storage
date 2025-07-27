@@ -16,3 +16,10 @@ import _wrap_ansi from 'https://esm.sh/wrap-ansi@9.0.0';
 
 import _chalk_table from 'https://esm.sh/chalk-table@1.0.2';
 import _chalk_template from 'https://esm.sh/chalk-template@1.1.0';
+
+// EditorConfig
+import * as _editor_config from 'https://esm.sh/v135/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1?deno-std=0.134.0'; // *works*
+import * as _editor_config_ESMv90 from 'https://esm.sh/v90/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1?deno-std=0.134.0'; // *works*
+// import * as _editor_config from 'https://esm.sh/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1'; // *fails*
+// import * as _editor_config from 'https://esm.sh/v135/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1?deno-std=0.134.0'; // *works*
+// import * as _editor_config from 'https://esm.sh/v90/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1'; // *works*
