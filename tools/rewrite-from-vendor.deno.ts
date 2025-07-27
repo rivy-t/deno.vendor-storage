@@ -1,8 +1,14 @@
-// rewrite file(s) from remote vendored packages (using vendor import_map)
+// rewrite imports for file(s), using import map aliases from remote vendored modules
+// * allows direct CDN import of vendored modules
 // note: idempotent if/when run multiple times
 
 // spell-checker:ignore (people) rivy
 // spell-checker:ignore (shell/cmd) COMSPEC ERRORLEVEL NULLGLOB PATHEXT
+
+// NOTE: [2023-07-27; rivy] ~ avoid using this to rewrite imports from vendor folders in the same repo/commit, as `deno vendor ...` will not succeed on modules which refer to files within the target 'vendored' folder
+// ToDO: [2023-11-22; rivy] ~ add vendor location corrections for `// @deno-types=...` lines
+// ToDO: [2023-11-22; rivy] ~ improve uses of path/URLs
+// ToDO: [2023-11-22; rivy] ~ improve robustness, allowing possible use of non-vendor import mappings
 
 // import { permitsAsync } from '../src/lib/$shared.TLA.ts';
 import {
@@ -152,9 +158,10 @@ log.mergeMetadata({ authority: appName });
 const app = $yargs(/* argv */ undefined, /* cwd */ undefined)
 	// * usage, description, and epilog (ie, notes/copyright)
 	.usage(`$0 ${appVersion}\n
-Expand and rewrite module imports to load directly from 'vendored' packages.\n
+Expand and rewrite module imports to enable direct loading of 'vendored' packages (without requiring *import_map.json*).\n
 * Usual ESM export/import statements are all matched and rewritten.
 * However, only simple dynamic imports of the form \`const M = [await] import('...');\` are matched and rewritten.\n
+* NOTE: this is most useful to expand import maps in a stored 'vendor' directory which can then be loaded from a CDN, by commit/version.\n
 Usage:\n  ${appRunAs} [OPTION..] FILE..`)
 	.updateStrings({ 'Positionals:': 'Arguments:' }) // note: Yargs requires this `updateStrings()` to precede `.positional(...)` definitions for correct help display
 	.positional('OPTION', { describe: 'OPTION(s); see listed *Options*' })
@@ -458,7 +465,7 @@ async function createTransformer(
 			}
 		}
 
-		finalSpecifier = $lib.pathToPOSIX(finalSpecifier); // as POSIX-style path
+		finalSpecifier = $lib.pathToPOSIX(finalSpecifier);
 		log.info(
 			`resolveSpecifier(file='${pathFromURL(fileURL)}'; '${specifier}') => ${
 				finalSpecifier === specifier ? '(*NO-CHANGE*) ' : ''
