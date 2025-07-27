@@ -13,6 +13,8 @@
     "https://esm.sh/wrap-ansi@9.0.0": "./esm.sh/wrap-ansi@9.0.0.js",
     "https://esm.sh/chalk-table@1.0.2": "./esm.sh/chalk-table@1.0.2.js",
     "https://esm.sh/chalk-template@1.1.0": "./esm.sh/chalk-template@1.1.0.js",
+    "https://esm.sh/v135/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1?deno-std=0.134.0": "./esm.sh/v135/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1.js",
+    "https://esm.sh/v90/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1?deno-std=0.134.0": "./esm.sh/v90/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1.js",
     "https://esm.sh/typescript@5.7.3": "./esm.sh/typescript@5.7.3.js",
     "https://cdn.jsdelivr.net/npm/lodash-es@4.17.15/+esm": "./cdn.jsdelivr.net/npm/lodash-es@4.17.15/+esm.js",
     "https://cdn.jsdelivr.net/npm/deepmerge@4.3.1/+esm": "./cdn.jsdelivr.net/npm/deepmerge@4.3.1/+esm.js",
@@ -83,6 +85,12 @@
       "/supports-color@5.5.0/denonext/supports-color.mjs": "./esm.sh/supports-color@5.5.0/denonext/supports-color.mjs",
       "/source-map-support?target=denonext": "./esm.sh/source-map-support@0.5.21.js",
       "/typescript@5.7.3/denonext/typescript.mjs": "./esm.sh/typescript@5.7.3/denonext/typescript.mjs",
+      "/v135/lru-cache@7.18.3/denonext/lru-cache.mjs": "./esm.sh/v135/lru-cache@7.18.3/denonext/lru-cache.mjs",
+      "/v135/sigmund@1.0.1/denonext/sigmund.mjs": "./esm.sh/v135/sigmund@1.0.1/denonext/sigmund.mjs",
+      "/v135/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1/denonext/x-e34b1a4b-ab58-4d84-9787-309e53006932.mjs": "./esm.sh/v135/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1/denonext/x-e34b1a4b-ab58-4d84-9787-309e53006932.mjs",
+      "/v90/lru-cache@7.18.3/denonext/lru-cache.mjs": "./esm.sh/v90/lru-cache@7.18.3/denonext/lru-cache.mjs",
+      "/v90/sigmund@1.0.1/denonext/sigmund.mjs": "./esm.sh/v90/sigmund@1.0.1/denonext/sigmund.mjs",
+      "/v90/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1/denonext/x-e34b1a4b-ab58-4d84-9787-309e53006932.mjs": "./esm.sh/v90/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1/denonext/x-e34b1a4b-ab58-4d84-9787-309e53006932.mjs",
       "/wrap-ansi@9.0.0/denonext/wrap-ansi.mjs": "./esm.sh/wrap-ansi@9.0.0/denonext/wrap-ansi.mjs"
     }
   }

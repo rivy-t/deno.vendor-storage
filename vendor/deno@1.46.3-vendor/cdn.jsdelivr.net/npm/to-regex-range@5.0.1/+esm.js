@@ -1,5 +1,5 @@
 /**
- * Bundled by jsDelivr using Rollup v2.79.1 and Terser v5.19.2.
+ * Bundled by jsDelivr using Rollup v2.79.2 and Terser v5.39.0.
  * Original file: /npm/to-regex-range@5.0.1/index.js
  *
  * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
@@ -44,11 +44,11 @@ import t from "../../../cdn.jsdelivr.net/npm/is-number@7.0.0/+esm.js";
     return l >= 0 && (p = a(s, l, g, i)),
       g.negatives = d,
       g.positives = p,
-      g.result = function (t, e, r) {
-        let n = u(t, e, "-", !1) || [],
-          a = u(e, t, "", !1) || [],
-          o = u(t, e, "-?", !0) || [];
-        return n.concat(o).concat(a).join("|");
+      g.result = function (t, e) {
+        let r = u(t, e, "-", !1) || [],
+          n = u(e, t, "", !1) || [],
+          a = u(t, e, "-?", !0) || [];
+        return r.concat(a).concat(n).join("|");
       }(d, p),
       !0 === i.capture
         ? g.result = `(${g.result})`
@@ -157,4 +157,4 @@ function g(t, e, r) {
 r.cache = {}, r.clearCache = () => r.cache = {};
 var p = r, d = p.cache, m = p.clearCache;
 export { d as cache, m as clearCache, p as default };
-//# sourceMappingURL=/sm/6edac6bf6333678ad4609dfd509dea820006b126b3a7f3a46c5a3cffe22ad145.map
+//# sourceMappingURL=/sm/29a0b1d76cd2a6e5801d6fc9f3ce2f5a931eaf412d46e5fd07301f4908bb79f0.map

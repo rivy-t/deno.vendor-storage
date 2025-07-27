@@ -1,5 +1,5 @@
 /**
- * Bundled by jsDelivr using Rollup v2.79.1 and Terser v5.19.2.
+ * Bundled by jsDelivr using Rollup v2.79.2 and Terser v5.39.0.
  * Original file: /npm/braces@3.0.2/index.js
  *
  * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
@@ -20,13 +20,12 @@ var t, n = {};
       !0 !== r.escaped && (r.value = "\\" + r.value, r.escaped = !0);
   },
   t.encloseBrace = (e) =>
-    "brace" === e.type && e.commas >> 0 + e.ranges >> 0 == 0 &&
-    (e.invalid = !0, !0),
+    !("brace" !== e.type || e.commas >> 0 + e.ranges || (e.invalid = !0, 0)),
   t.isInvalidBrace = (e) =>
     !("brace" !== e.type ||
       !0 !== e.invalid && !e.dollar &&
-        (e.commas >> 0 + e.ranges >> 0 != 0 && !0 === e.open &&
-            !0 === e.close || (e.invalid = !0, 0))),
+        (e.commas >> 0 + e.ranges && !0 === e.open && !0 === e.close ||
+          (e.invalid = !0, 0))),
   t.isOpenOrClose = (e) =>
     "open" === e.type || "close" === e.type || !0 === e.open || !0 === e.close,
   t.reduce = (e) =>
@@ -467,4 +466,4 @@ export {
   M as expand,
   P as create,
 };
-//# sourceMappingURL=/sm/01aa63db053ef55275014a5479171954120179faedd7e688977a310e1d4b5032.map
+//# sourceMappingURL=/sm/a44fc5436b6cd197c86b043c669a81d99910b0e769f903f6adb55871c982c308.map

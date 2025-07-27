@@ -1,5 +1,5 @@
 /**
- * Bundled by jsDelivr using Rollup v2.79.1 and Terser v5.19.2.
+ * Bundled by jsDelivr using Rollup v2.79.2 and Terser v5.39.0.
  * Original file: /npm/fill-range@7.0.1/index.js
  *
  * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
@@ -1031,7 +1031,7 @@ d.prototype.slice = function (t, r) {
     var o = 0, u = 1, f = 0;
     for (this[r] = 255 & t; ++o < e && (u *= 256);) {
       t < 0 && 0 === f && 0 !== this[r + o - 1] && (f = 1),
-        this[r + o] = (t / u >> 0) - f & 255;
+        this[r + o] = (t / u | 0) - f & 255;
     }
     return r + e;
   },
@@ -1043,7 +1043,7 @@ d.prototype.slice = function (t, r) {
     var o = e - 1, u = 1, f = 0;
     for (this[r + o] = 255 & t; --o >= 0 && (u *= 256);) {
       t < 0 && 0 === f && 0 !== this[r + o + 1] && (f = 1),
-        this[r + o] = (t / u >> 0) - f & 255;
+        this[r + o] = (t / u | 0) - f & 255;
     }
     return r + e;
   },
@@ -2099,4 +2099,4 @@ const hr = r(Object.freeze({
   };
 var Tr = Rr;
 export { Tr as default };
-//# sourceMappingURL=/sm/08c28048c4e1658b4042c192f460f16ca00415396dbc7f461b48d2e4c574b88a.map
+//# sourceMappingURL=/sm/ad0decf09d76e2e97828308bc1fec80f0bea37a28c622080f3b980a88da97b81.map
