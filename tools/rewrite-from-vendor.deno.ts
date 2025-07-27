@@ -84,8 +84,13 @@ abortIfMissingPermitsSync(
 // import ts from 'https://esm.sh/typescript@5.7.3';
 // [why]: the `typescript` module attempts to read multiple environment variables when used after being statically imported
 //    ... as a workaround to avoid the permission prompt, we dynamically import it after the `abortIfMissingPermits` check
-import type tsTypes from 'https://esm.sh/typescript@5.7.3'; // types only (workaround for loss of typescript namespace import with dynamic import)
-const tsM = await import('https://esm.sh/typescript@5.7.3'); // dynamically import TypeScript after `abortIfMissingPermits`; avoids permission prompts
+//    ... JSDelivr and 'deno.vendor-storage' is used to ensure immutability of imported modules after esm.sh removed pinning and immutability guarantees
+///import type tsTypes from 'https://esm.sh/typescript@5.7.3'; // types only (workaround for loss of typescript namespace import with dynamic import)
+///const tsM = await import('https://esm.sh/typescript@5.7.3'); // dynamically import TypeScript after `abortIfMissingPermits`; avoids permission prompts
+import type tsTypes from 'https://cdn.jsdelivr.net/gh/rivy-t/deno.vendor-storage@614722de3b/vendor/deno@1.46.3-vendor/esm.sh/typescript@5.7.3.js'; // types only (workaround for loss of typescript namespace import with dynamic import)
+const tsM = await import(
+	'https://cdn.jsdelivr.net/gh/rivy-t/deno.vendor-storage@614722de3b/vendor/deno@1.46.3-vendor/esm.sh/typescript@5.7.3.js'
+); // dynamically import TypeScript after `abortIfMissingPermits`; avoids permission prompts
 const ts = tsM.default;
 
 //===
