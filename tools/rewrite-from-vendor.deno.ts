@@ -251,7 +251,7 @@ Usage:\n  ${appRunAs} [OPTION..] FILE..`)
 	})
 	.alias('vendor-from', ['v'])
 	/* Examples...*/
-	.example(`${appRunAs} --vendor-from vendor/deno@1.44.4-vendor`)
+	.example(`${appRunAs} --vendor-from vendor/deno@1.46.3-vendor`)
 	.example([]);
 
 const bakedArgs = $me.args();
@@ -350,10 +350,6 @@ const scriptDirURL = intoURL('./', intoURL(import.meta.url));
 
 const vendorFrom = (yargs.vendorFrom as string | undefined) ?? '';
 const vendorDirURL = intoURL(vendorFrom + (vendorFrom.endsWith('/') ? '' : '/.'));
-// const vendorDirURL = new URL('../vendor/deno@1.44.4-vendor/', scriptDirURL);
-// const vendorDirURL = new URL(
-// 	'https://cdn.jsdelivr.net/gh/rivy-t/deno.vendor-storage@c049d09659/vendor/deno@1.44.4-vendor/',
-// );
 const importMapURL = intoURL('import_map.json', vendorDirURL);
 
 await log.debug({
