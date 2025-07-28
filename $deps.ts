@@ -29,3 +29,9 @@ import _ts from 'https://esm.sh/typescript@5.7.3';
 
 import _computed_types from 'https://esm.sh/computed-types@1.6.0';
 import _computed_types_ESM45 from 'https://esm.sh/v45/computed-types@1.6.0';
+
+import _chai from 'https://esm.sh/chai@4.5.0';
+import _chai_4_3_4_ESMv135 from 'https://esm.sh/v135/chai@4.3.4';
+
+import _z from 'https://esm.sh/zod@3.9.8';
+import _z_ESMv135 from 'https://esm.sh/v135/zod@3.9.8';
