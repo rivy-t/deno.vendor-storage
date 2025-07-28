@@ -20,6 +20,7 @@
     "https://esm.sh/v45/computed-types@1.6.0": "./esm.sh/v45/computed-types@1.6.0.js",
     "https://esm.sh/chai@4.5.0": "./esm.sh/chai@4.5.0.js",
     "https://esm.sh/v135/chai@4.3.4": "./esm.sh/v135/chai@4.3.4.js",
+    "https://esm.sh/zod@4.0.10": "./esm.sh/zod@4.0.10.js",
     "https://esm.sh/zod@3.9.8": "./esm.sh/zod@3.9.8.js",
     "https://esm.sh/v135/zod@3.9.8": "./esm.sh/v135/zod@3.9.8.js",
     "https://esm.sh/@types/buffer-from@~1.1.3/index.d.ts": "./esm.sh/@types/buffer-from@1.1.3/index.d.ts",
@@ -128,7 +129,10 @@
       "/v90/sigmund@1.0.1/denonext/sigmund.mjs": "./esm.sh/v90/sigmund@1.0.1/denonext/sigmund.mjs",
       "/v90/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1/denonext/x-e34b1a4b-ab58-4d84-9787-309e53006932.mjs": "./esm.sh/v90/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1/denonext/x-e34b1a4b-ab58-4d84-9787-309e53006932.mjs",
       "/wrap-ansi@9.0.0/denonext/wrap-ansi.mjs": "./esm.sh/wrap-ansi@9.0.0/denonext/wrap-ansi.mjs",
-      "/zod@3.9.8/denonext/zod.mjs": "./esm.sh/zod@3.9.8/denonext/zod.mjs"
+      "/zod@3.9.8/denonext/zod.mjs": "./esm.sh/zod@3.9.8/denonext/zod.mjs",
+      "/zod@4.0.10/denonext/v4/core.mjs": "./esm.sh/zod@4.0.10/denonext/v4/core.mjs",
+      "/zod@4.0.10/denonext/v4/locales.mjs": "./esm.sh/zod@4.0.10/denonext/v4/locales.mjs",
+      "/zod@4.0.10/denonext/zod.mjs": "./esm.sh/zod@4.0.10/denonext/zod.mjs"
     }
   }
 }
