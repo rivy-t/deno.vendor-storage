@@ -1,4 +1,4 @@
-// surrealDB-bins
+// 7zip-bins
 import _7zip from 'https://esm.sh/7zip-min@2.0.0';
 
 // chalk
@@ -23,3 +23,9 @@ import * as _editor_config_ESMv90 from 'https://esm.sh/v90/@rivy-labs/x-e34b1a4b
 // import * as _editor_config from 'https://esm.sh/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1'; // *fails*
 // import * as _editor_config from 'https://esm.sh/v135/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1?deno-std=0.134.0'; // *works*
 // import * as _editor_config from 'https://esm.sh/v90/@rivy-labs/x-e34b1a4b-ab58-4d84-9787-309e53006932@0.17.1'; // *works*
+
+// TypeScript
+import _ts from 'https://esm.sh/typescript@5.7.3';
+
+import _computed_types from 'https://esm.sh/computed-types@1.6.0';
+import _computed_types_ESM45 from 'https://esm.sh/v45/computed-types@1.6.0';
