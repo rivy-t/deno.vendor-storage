@@ -33,5 +33,6 @@ import _computed_types_ESM45 from 'https://esm.sh/v45/computed-types@1.6.0';
 import _chai from 'https://esm.sh/chai@4.5.0';
 import _chai_4_3_4_ESMv135 from 'https://esm.sh/v135/chai@4.3.4';
 
-import _z from 'https://esm.sh/zod@3.9.8';
-import _z_ESMv135 from 'https://esm.sh/v135/zod@3.9.8';
+import _zod from 'https://esm.sh/zod@4.0.10';
+import _zod_3_9_8 from 'https://esm.sh/zod@3.9.8';
+import _zod_ESMv135 from 'https://esm.sh/v135/zod@3.9.8';
