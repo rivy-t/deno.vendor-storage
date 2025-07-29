@@ -18,6 +18,7 @@
     "https://esm.sh/typescript@5.7.3": "./esm.sh/typescript@5.7.3.js",
     "https://esm.sh/computed-types@1.6.0": "./esm.sh/computed-types@1.6.0.js",
     "https://esm.sh/v45/computed-types@1.6.0": "./esm.sh/v45/computed-types@1.6.0.js",
+    "https://cdn.jsdelivr.net/npm/computed-types@1.6.0/+esm": "./cdn.jsdelivr.net/npm/computed-types@1.6.0/+esm.js",
     "https://esm.sh/chai@4.5.0": "./esm.sh/chai@4.5.0.js",
     "https://esm.sh/v135/chai@4.3.4": "./esm.sh/v135/chai@4.3.4.js",
     "https://esm.sh/zod@4.0.10": "./esm.sh/zod@4.0.10.js",
